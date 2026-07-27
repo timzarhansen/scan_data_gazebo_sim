@@ -42,6 +42,7 @@ setup(
             "teleop_joy  = scan_data_gazebo_sim.teleop_joy:main",
             "ground_truth= scan_data_gazebo_sim.ground_truth:main",
             "validate    = scan_data_gazebo_sim.validation:main",
+            "raycaster   = scan_data_gazebo_sim.raycaster:main",
         ],
     },
 )

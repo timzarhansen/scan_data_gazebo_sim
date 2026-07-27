@@ -159,6 +159,7 @@
           <izz>1e-6</izz>
         </inertia>
       </inertial>
+      <!-- GPU LiDAR disabled — using Python CPU raycaster instead
       <sensor name="lidar" type="gpu_lidar">
         <always_on>1</always_on>
         <update_rate>10</update_rate>
@@ -183,6 +184,7 @@
           </noise>
         </lidar>
       </sensor>
+      -->
     </link>
 
     <!-- ─── Joints ─────────────────────────────────── -->
