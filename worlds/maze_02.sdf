@@ -18,6 +18,13 @@
       <specular>0.2 0.2 0.2 1</specular>
     </light>
 
+    <!-- Required for sensors (RaySensor) to process data -->
+    <plugin
+      filename="gz-sim-sensors-system"
+      name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
     <!-- Ground plane -->
     <model name="ground">
       <static>true</static>

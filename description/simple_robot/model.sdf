@@ -206,8 +206,8 @@
       <wheel_separation>0.36</wheel_separation>
       <wheel_radius>0.04</wheel_radius>
       <odom_publish_frequency>50</odom_publish_frequency>
-      <topic>cmd_vel</topic>
-      <odom_topic>odometry</odom_topic>
+      <topic>/cmd_vel</topic>
+      <odom_topic>/odom</odom_topic>
     </plugin>
 
     <!-- ─── LiDAR (ray) plugin ──────────────────────── -->
@@ -219,6 +219,7 @@
         <always_on>1</always_on>
         <update_rate>10</update_rate>
         <visualize>true</visualize>
+        <topic>/scan</topic>
         <ray>
           <scan>
             <horizontal>
