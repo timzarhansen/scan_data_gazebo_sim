@@ -6,11 +6,17 @@ package_name = "scan_data_gazebo_sim"
 
 
 def _recursive_data_files(install_dir, glob_pattern):
-    """Recursively collect files matching glob_pattern inside install_dir."""
+    """Recursively collect files matching glob_pattern inside install_dir.
+
+    The destination preserves the subdirectory structure relative to install_dir.
+    Files from ``description/simple_robot/*`` land in
+    ``share/<pkg>/description/simple_robot/``.
+    """
     result = []
     for path in iglob(glob_pattern, recursive=True):
         if os.path.isfile(path):
-            dest = os.path.join("share", package_name, install_dir, os.path.dirname(path))
+            # os.path.dirname preserves the full subtree (e.g. "description/simple_robot")
+            dest = os.path.join("share", package_name, os.path.dirname(path))
             result.append((dest, [path]))
     return result
 
