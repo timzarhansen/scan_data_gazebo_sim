@@ -34,6 +34,12 @@ def generate_launch_description():
         value=PathJoinSubstitution([FindPackageShare(pkg), "description"]),
     )
 
+    # Render sensors offscreen so the GUI keeps the display's OpenGL context
+    gz_offscreen = SetEnvironmentVariable(
+        name="GZ_SIM_RENDER_OFFSCREEN",
+        value="1",
+    )
+
     # Append .sdf extension via PythonExpression substitution
     world_file = PythonExpression(["'", LaunchConfiguration("world"), "' + '.sdf'"])
 
@@ -62,6 +68,7 @@ def generate_launch_description():
         world_arg,
         bridge_arg,
         gz_resource_path,
+        gz_offscreen,
         gz_server,
         bridge,
     ])
