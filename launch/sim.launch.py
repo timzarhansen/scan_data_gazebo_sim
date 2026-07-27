@@ -40,6 +40,12 @@ def generate_launch_description():
         value="1",
     )
 
+    # Use copy-based RTT to avoid context conflicts on software OpenGL
+    gz_rtt = SetEnvironmentVariable(
+        name="GZ_OGRE2_RTT_MODE",
+        value="Copy",
+    )
+
     # Append .sdf extension via PythonExpression substitution
     world_file = PythonExpression(["'", LaunchConfiguration("world"), "' + '.sdf'"])
 
@@ -69,6 +75,7 @@ def generate_launch_description():
         bridge_arg,
         gz_resource_path,
         gz_offscreen,
+        gz_rtt,
         gz_server,
         bridge,
     ])
