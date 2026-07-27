@@ -159,6 +159,30 @@
           <izz>1e-6</izz>
         </inertia>
       </inertial>
+      <sensor name="lidar" type="ray">
+        <always_on>1</always_on>
+        <update_rate>10</update_rate>
+        <visualize>true</visualize>
+        <topic>/scan</topic>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>720</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.14159</min_angle>
+              <max_angle>3.14159</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.1</min>
+            <max>30.0</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>none</type>
+          </noise>
+        </ray>
+      </sensor>
     </link>
 
     <!-- ─── Joints ─────────────────────────────────── -->
@@ -210,36 +234,7 @@
       <odom_topic>/odom</odom_topic>
     </plugin>
 
-    <!-- ─── LiDAR (ray) plugin ──────────────────────── -->
-    <plugin
-      filename="gz-sim-ray-sensor-system"
-      name="gz::sim::systems::RaySensor">
-      <sensor name="lidar" type="ray">
-        <pose relative_to="laser">0 0 0 0 0 0</pose>
-        <always_on>1</always_on>
-        <update_rate>10</update_rate>
-        <visualize>true</visualize>
-        <topic>/scan</topic>
-        <ray>
-          <scan>
-            <horizontal>
-              <samples>720</samples>
-              <resolution>1</resolution>
-              <min_angle>-3.14159</min_angle>
-              <max_angle>3.14159</max_angle>
-            </horizontal>
-          </scan>
-          <range>
-            <min>0.1</min>
-            <max>30.0</max>
-            <resolution>0.01</resolution>
-          </range>
-          <noise>
-            <type>none</type>
-          </noise>
-        </ray>
-      </sensor>
-    </plugin>
+
 
   </model>
 </sdf>
