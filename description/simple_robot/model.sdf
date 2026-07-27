@@ -128,14 +128,14 @@
       <collision name="collision">
         <geometry>
           <sphere>
-            <radius>0.02</radius>
+            <radius>0.04</radius>
           </sphere>
         </geometry>
       </collision>
       <visual name="visual">
         <geometry>
           <sphere>
-            <radius>0.02</radius>
+            <radius>0.04</radius>
           </sphere>
         </geometry>
         <material>
@@ -205,7 +205,7 @@
       <parent>chassis</parent>
       <child>right_wheel</child>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0 -1 0</xyz>    <!-- opposite sign to left wheel for same forward force -->
         <limit>
           <lower>-1e16</lower>
           <upper>1e16</upper>

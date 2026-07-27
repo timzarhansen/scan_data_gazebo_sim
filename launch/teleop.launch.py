@@ -31,6 +31,9 @@ def generate_launch_description():
             executable="teleop_joy",
             name="teleop_joy",
             output="screen",
-            parameters=[{"use_sim_time": True}],
+            parameters=[{
+                "use_sim_time": True,
+                "scale_angular": 0.5,  # full stick = 0.5 rad/s (~29°/s)
+            }],
         ),
     ])
