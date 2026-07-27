@@ -159,12 +159,12 @@
           <izz>1e-6</izz>
         </inertia>
       </inertial>
-      <sensor name="lidar" type="ray">
+      <sensor name="lidar" type="gpu_lidar">
         <always_on>1</always_on>
         <update_rate>10</update_rate>
         <visualize>true</visualize>
         <topic>/scan</topic>
-        <ray>
+        <lidar>
           <scan>
             <horizontal>
               <samples>720</samples>
@@ -181,7 +181,7 @@
           <noise>
             <type>none</type>
           </noise>
-        </ray>
+        </lidar>
       </sensor>
     </link>
 
