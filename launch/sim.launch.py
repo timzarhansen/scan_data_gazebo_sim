@@ -46,7 +46,7 @@ def generate_launch_description():
     # Gazebo server
     gz_server = ExecuteProcess(
         cmd=[
-            "gz", "sim", "-r", "-v", "3",
+            "gz", "sim", "-r", "-v", "4",
             PathJoinSubstitution([FindPackageShare(pkg), "worlds", world_file]),
         ],
         output="screen",
