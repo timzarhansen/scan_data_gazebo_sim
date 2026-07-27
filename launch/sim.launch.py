@@ -39,11 +39,19 @@ def generate_launch_description():
     # Append .sdf extension via PythonExpression substitution
     world_file = PythonExpression(["'", LaunchConfiguration("world"), "' + '.sdf'"])
 
-    # Gazebo server
+    # Gazebo server (headless, with Sensors plugin for lidar processing)
     gz_server = ExecuteProcess(
         cmd=[
-            "gz", "sim", "-r", "-v", "3",
+            "gz", "sim", "-s", "-r", "-v", "3",
             PathJoinSubstitution([FindPackageShare(pkg), "worlds", world_file]),
+        ],
+        output="screen",
+    )
+
+    # Gazebo GUI (separate process — avoids Ogre2 context conflict with Sensors)
+    gz_gui = ExecuteProcess(
+        cmd=[
+            "gz", "sim", "-g", "-v", "3",
         ],
         output="screen",
     )
@@ -66,5 +74,6 @@ def generate_launch_description():
         gz_resource_path,
 
         gz_server,
+        gz_gui,
         bridge,
     ])
