@@ -34,17 +34,7 @@ def generate_launch_description():
         value=PathJoinSubstitution([FindPackageShare(pkg), "description"]),
     )
 
-    # Render sensors offscreen so the GUI keeps the display's OpenGL context
-    gz_offscreen = SetEnvironmentVariable(
-        name="GZ_SIM_RENDER_OFFSCREEN",
-        value="1",
-    )
 
-    # Use copy-based RTT to avoid context conflicts on software OpenGL
-    gz_rtt = SetEnvironmentVariable(
-        name="GZ_OGRE2_RTT_MODE",
-        value="Copy",
-    )
 
     # Append .sdf extension via PythonExpression substitution
     world_file = PythonExpression(["'", LaunchConfiguration("world"), "' + '.sdf'"])
@@ -52,7 +42,7 @@ def generate_launch_description():
     # Gazebo server
     gz_server = ExecuteProcess(
         cmd=[
-            "gz", "sim", "-r", "-v", "4",
+            "gz", "sim", "-r", "-v", "3",
             PathJoinSubstitution([FindPackageShare(pkg), "worlds", world_file]),
         ],
         output="screen",
@@ -74,8 +64,7 @@ def generate_launch_description():
         world_arg,
         bridge_arg,
         gz_resource_path,
-        gz_offscreen,
-        gz_rtt,
+
         gz_server,
         bridge,
     ])
