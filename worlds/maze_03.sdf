@@ -1,0 +1,233 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <world name="maze_03">
+    <physics name="default" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>false</shadows>
+    </scene>
+
+    <light name="sun" type="directional">
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+    </light>
+
+    <!-- Ground plane -->
+    <model name="ground">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>50 50</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>50 50</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!--
+      Maze 03 – large labyrinth with rooms and corridors
+    -->
+
+    <!-- Outer border -->
+    <model name="border_top">
+      <static>true</static>
+      <pose>0 15 0.5 0 0 0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>40 0.2 1</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>40 0.2 1</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="border_bottom">
+      <static>true</static>
+      <pose>0 -15 0.5 0 0 0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>40 0.2 1</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>40 0.2 1</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="border_left">
+      <static>true</static>
+      <pose>-20 0 0.5 0 0 1.5708</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>30 0.2 1</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>30 0.2 1</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="border_right">
+      <static>true</static>
+      <pose>20 0 0.5 0 0 1.5708</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>30 0.2 1</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>30 0.2 1</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Corridor walls -->
+    <model name="corr_1">
+      <static>true</static>
+      <pose>-8 10 0.5 0 0 0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>0.2 8 1</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.2 8 1</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="corr_2">
+      <static>true</static>
+      <pose>0 5 0.5 0 0 0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>8 0.2 1</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>8 0.2 1</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="corr_3">
+      <static>true</static>
+      <pose>8 0 0.5 0 0 0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>0.2 10 1</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.2 10 1</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="corr_4">
+      <static>true</static>
+      <pose>0 -8 0.5 0 0 0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>16 0.2 1</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>16 0.2 1</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="corr_5">
+      <static>true</static>
+      <pose>-5 -4 0.5 0 0 0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>0.2 6 1</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.2 6 1</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="corr_6">
+      <static>true</static>
+      <pose>-12 2 0.5 0 0 0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>0.2 8 1</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.2 8 1</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Room blocks -->
+    <model name="room_1">
+      <static>true</static>
+      <pose>13 8 0.5 0 0 0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>3 3 1</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>3 3 1</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="room_2">
+      <static>true</static>
+      <pose>13 -5 0.5 0 0 0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>3 3 1</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>3 3 1</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="room_3">
+      <static>true</static>
+      <pose>-4 -11 0.5 0 0 0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>6 1 1</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>6 1 1</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Spawn robot -->
+    <include>
+      <uri>model://simple_robot</uri>
+      <pose>-14 -10 0.05 0 0 0</pose>
+    </include>
+  </world>
+</sdf>

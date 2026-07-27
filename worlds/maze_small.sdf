@@ -1,0 +1,146 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <world name="maze_small">
+    <physics name="default" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>false</shadows>
+    </scene>
+
+    <light name="sun" type="directional">
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+    </light>
+
+    <!-- Ground plane -->
+    <model name="ground">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>20 20</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>20 20</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ─── Maze walls ──────────────────────────────────── -->
+    <!--
+      Legend:
+      ##############
+      #            #
+      # #######    #
+      # #          #
+      # # #######  #
+      #            #
+      ##############
+    -->
+    <model name="wall_border_top">
+      <static>true</static>
+      <pose>3 4 0.5 0 0 0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>14 0.2 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>14 0.2 1.0</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="wall_border_bottom">
+      <static>true</static>
+      <pose>3 -4 0.5 0 0 0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>14 0.2 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>14 0.2 1.0</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="wall_border_left">
+      <static>true</static>
+      <pose>-4 0 0.5 0 0 1.5708</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>8 0.2 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>8 0.2 1.0</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="wall_border_right">
+      <static>true</static>
+      <pose>10 0 0.5 0 0 1.5708</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>8 0.2 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>8 0.2 1.0</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Inner wall: vertical barrier with a gap -->
+    <model name="wall_inner_1">
+      <static>true</static>
+      <pose>1 2 0.5 0 0 0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>0.2 4 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.2 4 1.0</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="wall_inner_2">
+      <static>true</static>
+      <pose>5 0 0.5 0 0 0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>0.2 4 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.2 4 1.0</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Spawn the robot at the starting position -->
+    <include>
+      <uri>model://simple_robot</uri>
+      <pose>0 0 0.05 0 0 0</pose>
+    </include>
+  </world>
+</sdf>

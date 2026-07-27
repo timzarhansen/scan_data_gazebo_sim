@@ -1,0 +1,32 @@
+# ──────────────────────────────────────────────────────────
+# scan_data_gazebo_sim — Configuration
+# ──────────────────────────────────────────────────────────
+
+# World to load (without .sdf extension)
+world_name: maze_small
+
+# Robot
+robot_name: simple_robot
+
+# ─── Teleop (TeleopJoy) ──────────────────────────────────
+teleop:
+  axis_linear: 1          # Left stick vertical (Logitech F710 / Xbox)
+  axis_angular: 3         # Right stick horizontal
+  axis_linear_sign: 1
+  axis_angular_sign: 1
+  scale_linear: 0.5       # max linear speed (m/s)
+  scale_angular: 1.0      # max angular speed (rad/s)
+  button_slow: 4          # LB
+  button_turbo: 5         # RB
+  slow_factor: 0.3
+  turbo_factor: 2.0
+  deadzone: 0.05
+
+# ─── Recorder ────────────────────────────────────────────
+recorder:
+  output_base: datasets
+  sync_tolerance_sec: 0.01   # max timestamp mismatch (10 ms)
+
+# ─── Ground Truth ────────────────────────────────────────
+ground_truth:
+  use_odom_fallback: true    # use /odom if direct Gazebo pose unavailable
