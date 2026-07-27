@@ -5,7 +5,7 @@ Usage:
 """
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, SetEnvironmentVariable
 from launch.substitutions import (
     LaunchConfiguration, PathJoinSubstitution, PythonExpression
 )
@@ -26,6 +26,12 @@ def generate_launch_description():
         "use_ros_gz_bridge",
         default_value="true",
         description="Whether to start the ROS-Gazebo bridge",
+    )
+
+    # Point Gazebo to the model directory so model://simple_robot resolves
+    gz_resource_path = SetEnvironmentVariable(
+        name="GZ_SIM_RESOURCE_PATH",
+        value=PathJoinSubstitution([FindPackageShare(pkg), "description"]),
     )
 
     # Append .sdf extension via PythonExpression substitution
@@ -55,6 +61,7 @@ def generate_launch_description():
     return LaunchDescription([
         world_arg,
         bridge_arg,
+        gz_resource_path,
         gz_server,
         bridge,
     ])

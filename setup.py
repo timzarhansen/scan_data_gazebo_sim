@@ -1,8 +1,19 @@
 from setuptools import find_packages, setup
-from glob import glob
+from glob import glob, iglob
 import os
 
 package_name = "scan_data_gazebo_sim"
+
+
+def _recursive_data_files(install_dir, glob_pattern):
+    """Recursively collect files matching glob_pattern inside install_dir."""
+    result = []
+    for path in iglob(glob_pattern, recursive=True):
+        if os.path.isfile(path):
+            dest = os.path.join("share", package_name, install_dir, os.path.dirname(path))
+            result.append((dest, [path]))
+    return result
+
 
 setup(
     name=package_name,
@@ -10,13 +21,13 @@ setup(
     description="Gazebo + ROS 2 simulation for 2D LiDAR scan-matching datasets with ground-truth poses.",
     license="MIT",
     packages=find_packages(exclude=["test"]),
-    data_files=[
-        (os.path.join("share", package_name, "launch"), glob("launch/*.launch.py")),
-        (os.path.join("share", package_name, "config"), glob("config/*.yaml")),
-        (os.path.join("share", package_name, "description"), glob("description/*.sdf")),
-        (os.path.join("share", package_name, "worlds"), glob("worlds/*.sdf")),
-        (os.path.join("share", package_name), glob("resource/*")),
-    ],
+    data_files=(
+        [(os.path.join("share", package_name, "launch"), glob("launch/*.launch.py")),
+         (os.path.join("share", package_name, "config"), glob("config/*.yaml")),
+         (os.path.join("share", package_name, "worlds"), glob("worlds/*.sdf")),
+         (os.path.join("share", package_name), glob("resource/*"))]
+        + _recursive_data_files("description", "description/**/*")
+    ),
     install_requires=["setuptools", "numpy", "pyyaml"],
     zip_safe=True,
     entry_points={
