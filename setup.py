@@ -30,6 +30,7 @@ setup(
     data_files=(
         [(os.path.join("share", package_name, "launch"), glob("launch/*.launch.py")),
          (os.path.join("share", package_name, "config"), glob("config/*.yaml")),
+         (os.path.join("share", package_name, "config"), glob("config/*.rviz")),
          (os.path.join("share", package_name, "worlds"), glob("worlds/*.sdf")),
          (os.path.join("share", package_name), glob("resource/*"))]
         + _recursive_data_files("description", "description/**/*")
@@ -43,6 +44,7 @@ setup(
             "ground_truth= scan_data_gazebo_sim.ground_truth:main",
             "validate    = scan_data_gazebo_sim.validation:main",
             "raycaster   = scan_data_gazebo_sim.raycaster:main",
+            "tf_broadcaster = scan_data_gazebo_sim.tf_broadcaster:main",
         ],
     },
 )
