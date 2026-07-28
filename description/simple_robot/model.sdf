@@ -243,6 +243,7 @@
       <publish_link_pose>false</publish_link_pose>
       <publish_model_pose>true</publish_model_pose>
       <publish_nested_model_pose>false</publish_nested_model_pose>
+      <publish_rate>50</publish_rate> 
     </plugin>
 
 
