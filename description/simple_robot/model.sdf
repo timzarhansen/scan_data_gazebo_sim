@@ -236,6 +236,15 @@
       <odom_topic>/odom</odom_topic>
     </plugin>
 
+    <!-- ─── Pose publisher plugin (true ground-truth pose) ─── -->
+    <plugin
+      filename="gz-sim-pose-publisher-system"
+      name="gz::sim::systems::PosePublisher">
+      <publish_link_pose>false</publish_link_pose>
+      <publish_model_pose>true</publish_model_pose>
+      <publish_nested_model_pose>false</publish_nested_model_pose>
+    </plugin>
+
 
 
   </model>
