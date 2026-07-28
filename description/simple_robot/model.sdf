@@ -159,12 +159,15 @@
           <izz>1e-6</izz>
         </inertia>
       </inertial>
-      <!-- GPU LiDAR disabled — using Python CPU raycaster instead
+      <!-- Native Gazebo LiDAR (instantaneous 2D scan). Falls back to the
+           Python CPU raycaster via launch arg lidar_mode:=cpu if this sensor
+           fails to initialise on headless/no-GPU systems. -->
       <sensor name="lidar" type="gpu_lidar">
         <always_on>1</always_on>
         <update_rate>10</update_rate>
-        <visualize>true</visualize>
+        <visualize>false</visualize>
         <topic>/scan</topic>
+        <gz_frame_id>laser</gz_frame_id>
         <lidar>
           <scan>
             <horizontal>
@@ -184,7 +187,6 @@
           </noise>
         </lidar>
       </sensor>
-      -->
     </link>
 
     <!-- ─── Joints ─────────────────────────────────── -->

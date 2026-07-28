@@ -6,6 +6,14 @@
       <real_time_factor>1.0</real_time_factor>
     </physics>
 
+    <!-- Sensors system plugin — required for any native Gazebo sensor
+         (gpu_lidar) to be updated and published. -->
+    <plugin
+      filename="gz-sim-sensors-system"
+      name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
     <scene>
       <ambient>0.4 0.4 0.4 1</ambient>
       <background>0.7 0.7 0.7 1</background>
