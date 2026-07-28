@@ -75,6 +75,15 @@ def generate_launch_description():
         }],
     )
 
+    # Ground truth: subscribes to Gazebo model pose (bridged), publishes /ground_truth_pose
+    ground_truth = Node(
+        package="scan_data_gazebo_sim",
+        executable="ground_truth",
+        name="ground_truth_publisher",
+        output="screen",
+        parameters=[{"use_sim_time": True}],
+    )
+
     return LaunchDescription([
         world_arg,
         bridge_arg,
@@ -82,4 +91,5 @@ def generate_launch_description():
         gz_server,
         bridge,
         raycaster,
+        ground_truth,
     ])
