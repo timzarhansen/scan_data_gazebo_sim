@@ -77,7 +77,7 @@
 
     <!-- ─── Right wheel ────────────────────────────── -->
     <link name="right_wheel">
-      <pose>-0.12 -0.18 -0.03 0 1.5708 0</pose>
+      <pose>-0.12 -0.18 -0.03 1.5708 0 0</pose>
       <inertial>
         <mass>0.2</mass>
         <inertia>
