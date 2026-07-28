@@ -128,14 +128,14 @@
       <collision name="collision">
         <geometry>
           <sphere>
-            <radius>0.06</radius>
+            <radius>0.07</radius>
           </sphere>
         </geometry>
       </collision>
       <visual name="visual">
         <geometry>
           <sphere>
-            <radius>0.06</radius>
+            <radius>0.07</radius>
           </sphere>
         </geometry>
         <material>
