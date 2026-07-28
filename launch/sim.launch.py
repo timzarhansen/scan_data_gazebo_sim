@@ -54,13 +54,13 @@ def generate_launch_description():
 
     headless_arg = DeclareLaunchArgument(
         "headless",
-        default_value="true",
+        default_value="false",
         description="true = server only (no Gazebo GUI, safe on Wayland/no-GPU); false = server + GUI",
     )
 
     use_rviz_arg = DeclareLaunchArgument(
         "use_rviz",
-        default_value="true",
+        default_value="false",
         description="Start RViz for scan visualization (odom->chassis->laser TF + /scan)",
     )
 
