@@ -36,12 +36,13 @@ def _parse_walls_from_sdf(sdf_path):
 
     Extracts all <model> elements that contain a <box> geometry for collision.
     The AABB is computed in world coordinates accounting for model <pose>.
+    Non-box collision shapes are skipped and counted for a warning.
     """
     tree = ET.parse(sdf_path)
     root = tree.getroot()
-    ns = {"sdf": "http://sdformat.org/schemas/sdf"}  # may or may not be used
 
     walls = []
+    skipped_non_box = 0
 
     for model in root.iter("model"):
         # Only static models with a box collision are considered walls
@@ -58,6 +59,7 @@ def _parse_walls_from_sdf(sdf_path):
             for collision in link.iter("collision"):
                 box = collision.find(".//box")
                 if box is None:
+                    skipped_non_box += 1
                     continue
                 size_str = box.findtext("size", "1 1 1")
                 sx, sy, sz = map(float, size_str.split())
@@ -87,6 +89,13 @@ def _parse_walls_from_sdf(sdf_path):
                 ymax = float(np.max(corners_world[:, 1]))
 
                 walls.append(WallAABB(xmin, xmax, ymin, ymax))
+
+    if skipped_non_box > 0:
+        import logging
+        logging.getLogger("raycaster").warning(
+            "Skipped %d collision(s) with non-box geometry (only boxes are supported)",
+            skipped_non_box,
+        )
 
     return walls
 
@@ -147,6 +156,7 @@ class Raycaster(Node):
         self.declare_parameter("range_max", 30.0)
         self.declare_parameter("noise_std", 0.0)  # Gaussian noise (metres)
         self.declare_parameter("angle_offset", 0.0)
+        self.declare_parameter("worlds_dir", "")  # override for source-tree development
 
         world_name = self.get_parameter("world").value
         num_beams = self.get_parameter("num_beams").value
@@ -155,10 +165,14 @@ class Raycaster(Node):
         self._range_max = self.get_parameter("range_max").value
         noise_std = self.get_parameter("noise_std").value
         angle_offset = self.get_parameter("angle_offset").value
+        worlds_dir = self.get_parameter("worlds_dir").value
 
         # --- Load walls from world SDF ---
-        pkg_dir = get_package_share_directory("scan_data_gazebo_sim")
-        sdf_path = os.path.join(pkg_dir, "worlds", f"{world_name}.sdf")
+        if worlds_dir:
+            sdf_path = os.path.join(worlds_dir, f"{world_name}.sdf")
+        else:
+            pkg_dir = get_package_share_directory("scan_data_gazebo_sim")
+            sdf_path = os.path.join(pkg_dir, "worlds", f"{world_name}.sdf")
 
         if not os.path.exists(sdf_path):
             self.get_logger().error(f"World file not found: {sdf_path}")

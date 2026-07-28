@@ -29,4 +29,4 @@ recorder:
 
 # ─── Ground Truth ────────────────────────────────────────
 ground_truth:
-  use_odom_fallback: true    # use /odom if direct Gazebo pose unavailable
+  use_odom_fallback: false   # use Gazebo direct model pose (odom fallback if enabled)

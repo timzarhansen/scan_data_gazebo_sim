@@ -19,7 +19,7 @@ class GroundTruthPublisher(Node):
 
         # Declare parameters
         self.declare_parameter("robot_name", "simple_robot")
-        self.declare_parameter("use_odom_fallback", True)
+        self.declare_parameter("use_odom_fallback", False)
 
         self.robot_name = self.get_parameter("robot_name").value
         use_odom = self.get_parameter("use_odom_fallback").value

@@ -51,12 +51,13 @@ def generate_launch_description():
         output="screen",
     )
 
-    # Bridge: ROS 2 <-> Gazebo (cmd_vel + odom only; scan comes from raycaster)
+    # Bridge: ROS 2 <-> Gazebo (cmd_vel, odom, and model pose; scan comes from raycaster)
     bridge = ExecuteProcess(
         cmd=[
             "ros2", "run", "ros_gz_bridge", "parameter_bridge",
             "/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist",
             "/odom@nav_msgs/msg/Odometry@gz.msgs.Odometry",
+            "/model/simple_robot/pose@geometry_msgs/msg/PoseStamped@gz.msgs.Pose",
         ],
         output="screen",
         condition=IfCondition(LaunchConfiguration("use_ros_gz_bridge")),
