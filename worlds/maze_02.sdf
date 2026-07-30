@@ -8,10 +8,18 @@
 
     <!-- System plugins. Declaring ANY world-level plugin suppresses Gazebo's
          auto-loaded defaults, so they must be listed explicitly:
+           Physics          — integrates joint commands into actual model motion
+                              (required by the DiffDrive plugin to drive the
+                              robot; without it /cmd_vel is received but the
+                              model never moves in the world)
            Sensors          — updates/publishes the gpu_lidar scan (/scan)
            SceneBroadcaster — publishes the scene graph to the GUI (without it
                               the 3D view opens grey/empty with no entities)
            UserCommands     — interactive spawn/move/remove via the GUI -->
+    <plugin
+      filename="gz-sim-physics-system"
+      name="gz::sim::systems::Physics">
+    </plugin>
     <plugin
       filename="gz-sim-sensors-system"
       name="gz::sim::systems::Sensors">
