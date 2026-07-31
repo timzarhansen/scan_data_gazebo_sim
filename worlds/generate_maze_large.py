@@ -3,7 +3,7 @@
 Generate maze_large.sdf — 100×80m industrial complex for LiDAR benchmarking.
 
 5 zones + curved connectors + dead-end alcove.
-All coordinates verified; each wall's position and size computed from scratch.
+Deterministic (seeded RNG). All model names unique.
 
 Usage:
     python3 generate_maze_large.py > maze_large.sdf
@@ -58,147 +58,110 @@ def pillar(name, cx, cy, d=0.5):
     </model>"""
 
 
-# ── all walls ────────────────────────────────────────────────────────────
+# ── all walls / pillars ──────────────────────────────────────────────────
 
 walls = []
 rand = random.Random(42)   # deterministic
 
+def scatter_pillars(prefix, xmin, xmax, ymin, ymax, count,
+                    exclude=(), dmin=0.35, dmax=0.6):
+    """Place `count` pillars in a rect, skipping exclusion rects (x,y,w,h)."""
+    for i in range(count):
+        for _try in range(200):
+            x = rand.uniform(xmin + 0.5, xmax - 0.5)
+            y = rand.uniform(ymin + 0.5, ymax - 0.5)
+            if any(ex[0] <= x <= ex[0] + ex[2] and ex[1] <= y <= ex[1] + ex[3]
+                   for ex in exclude):
+                continue
+            break
+        d = rand.uniform(dmin, dmax)
+        walls.append(pillar(f"{prefix}_{i}", round(x, 1), round(y, 1),
+                            round(d, 2)))
+
+
 # ════════════════════════════════════════════════════════════════════════
-#  OUTER BORDER  —  100 × 80 m
+#  OUTER BORDER  —  100 × 80 m, with a 10 m gap at the north centre
+#  for the dead-end alcove
 # ════════════════════════════════════════════════════════════════════════
 walls += [
-    horiz("border_top",    0,  40, 100),
-    horiz("border_bottom", 0, -40, 100),
-    vert( "border_left", -50,   0,  80),
-    vert( "border_right", 50,   0,  80),
+    horiz("border_top_l",   -27.5, 40, 45),   # X ∈ [-50, -5]
+    horiz("border_top_r",    27.5, 40, 45),   # X ∈ [5, 50]
+    horiz("border_bottom",     0, -40, 100),
+    vert( "border_left",    -50,    0,  80),
+    vert( "border_right",    50,    0,  80),
 ]
 
 # ════════════════════════════════════════════════════════════════════════
-#  DEAD-END ALCOVE  — U-shaped, opening left, attached to right wall
-#    alcove interior: X=[38, 48], Y=[2, 10]
-#    6 m wide (Y 2→8), 10 m deep (X 38→48)
-#    opening on the left side facing the maze interior
+#  DEAD-END ALCOVE  — attached to the north border, opening south into
+#  the warehouse.  interior X ∈ [-5, 5], Y ∈ [40, 48]; 6 m wide opening
+#  at Y=40.  Robot drives in, must reverse out (loop closure).
 # ════════════════════════════════════════════════════════════════════════
 walls += [
-    horiz("alcove_top",   43, 10,  10),   # top wall
-    horiz("alcove_bottom",43,  2,  10),   # bottom wall
-    vert( "alcove_back",  48,  6,   8),   # back wall (at X=48)
+    vert( "alcove_left",  -5, 44, 8),   # Y ∈ [40, 48]
+    vert( "alcove_right",  5, 44, 8),
+    horiz("alcove_back",   0, 48, 10),  # X ∈ [-5, 5]
 ]
 
 # ════════════════════════════════════════════════════════════════════════
 #  CENTRAL PLAZA  — 36 × 24 m open space with 12 pillars
 #    walls: X ∈ [-18, 18], Y ∈ [-12, 12]
-#    top/bottom walls have a 4 m gap for corridor access
-#    left/right walls are solid (narrow corridors attach via gaps in
-#    the plaza walls)
+#    top/bottom gaps (4 m) connect to curved corridors
+#    left/right gaps (4 m) connect to narrow corridors
 # ════════════════════════════════════════════════════════════════════════
-pla_l, pla_r = -18, 18
-pla_b, pla_t = -12, 12
-pgap = 4  # gap in top/bottom walls
-
-# Top wall — two segments with centre gap
 walls += [
-    horiz("plaza_top_l",  pla_l + (pla_r - pla_l - pgap)/4,
-           pla_t, (pla_r - pla_l - pgap)/2),    # left segment
-    horiz("plaza_top_r",  pla_r - (pla_r - pla_l - pgap)/4,
-           pla_t, (pla_r - pla_l - pgap)/2),    # right segment
-]
-# Actually let me compute this properly:
-# Total wall span: 36m. Gap = 4m. Each side = 16m.
-# Left segment: center at -18+8 = -10, length 16
-# Right segment: center at 18-8 = 10, length 16
-# Gah, let me just hardcode the numbers.
-
-# Let me restart the plaza walls with explicit values:
-# Actually, let me just cleanly define them:
-
-# Clear plaza walls
-plaza_walls = []
-# Top wall (Y=12), gap at X ∈ [-2, 2] for curved corridor connection
-plaza_walls.append( horiz("plaza_top_l", -10, 12, 16) )   # X ∈ [-18, -2]
-plaza_walls.append( horiz("plaza_top_r",  10, 12, 16) )   # X ∈ [2, 18]
-
-# Bottom wall (Y=-12), gap at X ∈ [-2, 2]
-plaza_walls.append( horiz("plaza_bot_l", -10, -12, 16) )
-plaza_walls.append( horiz("plaza_bot_r",  10, -12, 16) )
-
-# Left wall (X=-18), gap at Y ∈ [-2, 2] for narrow corridor
-plaza_walls.append( vert("plaza_left_t", -18, 7, 10) )    # Y ∈ [2, 12]
-plaza_walls.append( vert("plaza_left_b", -18, -7, 10) )   # Y ∈ [-12, -2]
-
-# Right wall (X=18), gap at Y ∈ [-2, 2]
-plaza_walls.append( vert("plaza_right_t", 18, 7, 10) )
-plaza_walls.append( vert("plaza_right_b", 18, -7, 10) )
-
-# Verify coverage:
-# Left wall: two 10m vert segments → cover Y=-12..-2 and Y=2..12. Gap at Y=-2..2 = 4m ✓
-# Top wall: two 16m horiz segments → cover X=-18..-2 and X=2..18. Gap at X=-2..2 = 4m ✓
-
-walls += plaza_walls
-
-# Plaza pillars — 12 in a non-grid pattern
-for i in range(12):
-    while True:
-        x = rand.uniform(-15, 15)
-        y = rand.uniform(-9, 9)
-        # keep at least 2 m from centre (so robot can drive through)
-        if abs(x) > 2 or abs(y) > 2:
-            break
-    d = rand.uniform(0.35, 0.6)
-    walls.append(pillar(f"plaza_p{i}", round(x,1), round(y,1), round(d,2)))
-
-# ════════════════════════════════════════════════════════════════════════
-#  NARROW CORRIDORS  —  2 m wide, 24 m long, left & right of plaza
-#    Left:  X ∈ [-44, -20], Y ∈ [-12, 12]  (wall at X=-20, wall at X=-44)
-#    Right: X ∈ [20, 44],   Y ∈ [-12, 12]  (wall at X=20, wall at X=44)
-# ════════════════════════════════════════════════════════════════════════
-# Left corridor: walls at X=-44 and X=-20, Y=-12..12
-# The plaza_left wall at X=-18 forms one side; we add wall at X=-44
-walls += [
-    vert("corr_l_out", -44, 0, 24),
-    # Top/bottom caps with centre gaps for entry/exit
-    horiz("corr_l_top", -32, 12, 20),    # X ∈ [-42, -22], gap at -22..-20? no...
-    # Actually the corridor is X ∈ [-44, -20], 24m span
-    # Top cap: let gap at X ∈ [-24, -20] connect to... nothing, just leave gap to plaza
-    
-    # Let me simplify: corridor top/bottom are partial walls
-    horiz("corr_l_top_l", -38, 12, 8),    # X ∈ [-42, -34]
-    horiz("corr_l_top_r", -27, 12, 6),    # X ∈ [-30, -24]
-    horiz("corr_l_bot_l", -38, -12, 8),   # X ∈ [-42, -34]
-    horiz("corr_l_bot_r", -27, -12, 6),   # X ∈ [-30, -24]
+    # Top wall (Y=12), gap at X ∈ [-2, 2]
+    horiz("plaza_top_l",  -10,  12, 16),
+    horiz("plaza_top_r",   10,  12, 16),
+    # Bottom wall (Y=-12), gap at X ∈ [-2, 2]
+    horiz("plaza_bot_l",  -10, -12, 16),
+    horiz("plaza_bot_r",   10, -12, 16),
+    # Left wall (X=-18), gap at Y ∈ [-2, 2]
+    vert( "plaza_left_t", -18,   7, 10),   # Y ∈ [2, 12]
+    vert( "plaza_left_b", -18,  -7, 10),   # Y ∈ [-12, -2]
+    # Right wall (X=18), gap at Y ∈ [-2, 2]
+    vert( "plaza_right_t", 18,   7, 10),
+    vert( "plaza_right_b", 18,  -7, 10),
 ]
 
-# Right corridor
+# Plaza pillars — keep a clear 4×4 m centre aisle
+scatter_pillars("plaza_p", -16, 16, -10, 10, 12,
+                exclude=[(-2, -2, 4, 4)])
+
+# ════════════════════════════════════════════════════════════════════════
+#  NARROW CORRIDORS  (×2)  — 24 m long, 2 m wide, flanking the plaza
+#    Left:  X ∈ [-44, -20], walls at X=-44 and X=-18 (plaza wall)
+#    Right: X ∈ [20, 44],   walls at X=20 (plaza wall) and X=44
+#    Top/bottom caps have gaps for entry/exit
+# ════════════════════════════════════════════════════════════════════════
 walls += [
-    vert("corr_r_out", 44, 0, 24),
-    horiz("corr_r_top_l", 27, 12, 6),    # X ∈ [24, 30]
-    horiz("corr_r_top_r", 38, 12, 8),    # X ∈ [34, 42]
-    horiz("corr_r_bot_l", 27, -12, 6),
-    horiz("corr_r_bot_r", 38, -12, 8),
+    # Left corridor
+    vert( "corr_l_out",  -44,   0, 24),
+    horiz("corr_l_top_l", -38,  12,  8),   # X ∈ [-42, -34]
+    horiz("corr_l_top_r", -27,  12,  6),   # X ∈ [-30, -24]
+    horiz("corr_l_bot_l", -38, -12,  8),   # X ∈ [-42, -34]
+    horiz("corr_l_bot_r", -27, -12,  6),   # X ∈ [-30, -24]
+    # Right corridor
+    vert( "corr_r_out",   44,   0, 24),
+    horiz("corr_r_top_l",  27,  12,  6),   # X ∈ [24, 30]
+    horiz("corr_r_top_r",  38,  12,  8),   # X ∈ [34, 42]
+    horiz("corr_r_bot_l",  27, -12,  6),
+    horiz("corr_r_bot_r",  38, -12,  8),
 ]
 
 # ════════════════════════════════════════════════════════════════════════
-#  PILLAR FORESTS  (×2)  —  top-left & top-right
-#    10 random pillars each, no walls
+#  PILLAR FORESTS  (×2)  — top-left & top-right corners
 # ════════════════════════════════════════════════════════════════════════
-for side, xmin, xmax in [("pf_left", -46, -28), ("pf_right", 28, 46)]:
-    for i in range(10):
-        x = rand.uniform(xmin+0.5, xmax-0.5)
-        y = rand.uniform(26, 37)
-        d = rand.uniform(0.35, 0.65)
-        walls.append(pillar(f"{side}_{i}", round(x,1), round(y,1), round(d,2)))
+scatter_pillars("pf_left",  -46, -28, 26, 38, 10)
+scatter_pillars("pf_right",  28,  46, 26, 38, 10,
+                exclude=[(28, 28, 8, 8)])   # keep room_b clear
 
 # ════════════════════════════════════════════════════════════════════════
-#  ROOMS  —  8×8 enclosures with 2 m door + interior pillar
+#  ROOMS  — 8×8 enclosures with 2 m door + interior pillar
 # ════════════════════════════════════════════════════════════════════════
-# Room A: centre (-21, 32), door on bottom (Y=28, X ∈ [-22, -20])
-# Room B: centre (32, 32), door on bottom
-# Room C: centre (-4, -24), door on top
-
 rooms = [
-    ("room_a", -21, 32, "bottom"),
-    ("room_b",  32, 32, "bottom"),
-    ("room_c",  -4, -24, "top"),
+    ("room_a", -21,  32, "bottom"),
+    ("room_b",  32,  32, "bottom"),
+    ("room_c",  -5.5, -24, "top"),
 ]
 
 for rname, cx, cy, door in rooms:
@@ -239,72 +202,48 @@ for rname, cx, cy, door in rooms:
     rand2 = random.Random(rname)
     px = cx + rand2.uniform(-2, 2)
     py = cy + rand2.uniform(-2, 2)
-    walls.append(pillar(f"{rname}_pillar", round(px,1), round(py,1), 0.5))
+    walls.append(pillar(f"{rname}_pillar", round(px, 1), round(py, 1), 0.5))
 
 # ════════════════════════════════════════════════════════════════════════
-#  WAREHOUSE  —  5 parallel shelves, north-central area
+#  WAREHOUSE  — north-central, 5 parallel shelves
 #    Bounding box: X ∈ [-10, 20], Y ∈ [24, 38]
-#    Each shelf: 6 m long horizontal wall
+#    Open at the top (Y=38) toward the border strip + alcove
 # ════════════════════════════════════════════════════════════════════════
 wh_l, wh_r = -10, 20
 wh_b, wh_t = 24, 38
-# Side walls
 walls += [
     vert("warehouse_left",  wh_l, (wh_b+wh_t)/2, wh_t-wh_b),
     vert("warehouse_right", wh_r, (wh_b+wh_t)/2, wh_t-wh_b),
 ]
-# Shelves (horizontal, irregular gaps)
+# Shelves (horizontal, irregular gaps between them)
 for i, y in enumerate([25, 27.5, 30.5, 33.5, 36]):
     walls.append( horiz(f"shelf_{i}", (wh_l+wh_r)/2, y, wh_r-wh_l-3) )
 
 # ════════════════════════════════════════════════════════════════════════
-#  THE GRID  (×2)  —  solid 8×8 blocks, 3 m corridors
-#    bottom-left & bottom-right
+#  THE GRID  (×2)  — 3×3 solid 8 m blocks, 3 m corridors between them
+#    bottom-left (-31, -25) & bottom-right (31, -25)
+#    Entries from the north via the vertical corridors (no top cap walls)
 # ════════════════════════════════════════════════════════════════════════
 def solid_block(name, cx, cy, s=8):
-    """A solid 8×8 block (no interior)."""
     return _box(name, cx, cy, s, s, 0, COL)
 
-# Grid positions for 3×3 grid, each block 8m, corridors 3m
-# Total grid: 3*8 + 2*3 = 30m
-# Grid centres: (-31, -25) and (31, -25)
 def make_grid_blocks(name_prefix, ox, oy):
-    """Return SDF strings for 9 solid blocks forming a 3×3 grid."""
-    pitch = 11  # block + gap
+    pitch = 11  # block + corridor
     blocks = []
     for row in range(3):
         for col in range(3):
             x = ox - pitch + col * pitch
             y = oy - pitch + row * pitch
-            blocks.append(solid_block(
-                f"{name_prefix}_{row}_{col}", x, y))
+            blocks.append(solid_block(f"{name_prefix}_{row}_{col}", x, y))
     return blocks
 
 for grid_name, gx in [("grid_l", -31), ("grid_r", 31)]:
-    blocks = make_grid_blocks(grid_name, gx, -25)
-    walls.extend(blocks)
-
-# Add perimeter walls for grids (with gaps for entry/exit)
-# Left grid: outer walls on left (X=-46) and bottom (Y=-40:
-#   left wall already = border_left at X=-50, so we add at X=-46? No, grid extends to -46.
-#   The outer border already encloses. The grid blocks are free-standing.
-#   Perimeter walls with gaps:
-#   left side: none (border_left is there)
-#   bottom side: none (border_bottom is there)
-#   top side: wall with gap
-#   right side: wall with gap (connecting to centre)
-
-# Actually, the grid blocks form their own corridors. The perimeter
-# of the grid area connects to the centre. Let's add walls that
-# channel the robot:
-# Left grid: top wall at Y=-14, spanning from border_left to grid right edge
-walls.append( horiz("grid_l_top", -33, -14, 20) )  # X ∈ [-43, -23], gap at right
-# Right grid: top wall
-walls.append( horiz("grid_r_top",  33, -14, 20) )
+    walls.extend(make_grid_blocks(grid_name, gx, -25))
 
 # ════════════════════════════════════════════════════════════════════════
-#  CURVED CORRIDOR  —  S-curve connecting top (Y≈22) to centre (Y=12)
-#    Angled wall segments approximating a smooth curve
+#  CURVED CORRIDORS  — angled wall segments:
+#    upper: S-curve from the left side to the right (Y ≈ 14 → 21)
+#    lower: gentle arc below the plaza (Y ≈ -14 → -18)
 # ════════════════════════════════════════════════════════════════════════
 def curve_seg(name, x1, y1, x2, y2):
     dx = x2 - x1; dy = y2 - y1
@@ -313,44 +252,51 @@ def curve_seg(name, x1, y1, x2, y2):
     yaw = math.degrees(math.atan2(dy, dx))
     return _box(name, cx, cy, length, W, yaw)
 
-# Upper curve (left half) — from near grid-left up towards warehouse/rooms
-pts_upper = [
+# Upper curve (left half) — from the left side toward the centre
+pts_upper_l = [
     (-30, 14), (-24, 15), (-18, 17), (-12, 18),
     (-6, 19),  (0, 20),
 ]
-for i in range(len(pts_upper)-1):
+for i in range(len(pts_upper_l) - 1):
     walls.append(curve_seg(f"curve_ul_{i}",
-        *pts_upper[i], *pts_upper[i+1]))
+                           *pts_upper_l[i], *pts_upper_l[i+1]))
 
-# Upper curve (right half) — from centre right to right pillar forest
+# Upper curve (right half) — from the centre toward the right
 pts_upper_r = [
     (0, 19),  (6, 20), (12, 21), (18, 21),
     (24, 20), (30, 18), (36, 16), (42, 14),
 ]
-for i in range(len(pts_upper_r)-1):
+for i in range(len(pts_upper_r) - 1):
     walls.append(curve_seg(f"curve_ur_{i}",
-        *pts_upper_r[i], *pts_upper_r[i+1]))
+                           *pts_upper_r[i], *pts_upper_r[i+1]))
 
-# Lower curve — connects centre bottom (Y=-12) down to grid area (Y≈-18)
+# Lower curve — below the plaza, guiding toward the grids
 pts_lower = [
     (-22, -14), (-16, -16), (-10, -17), (-4, -17),
     (2, -17),  (8, -18),   (14, -18),  (20, -17),
 ]
-for i in range(len(pts_lower)-1):
+for i in range(len(pts_lower) - 1):
     walls.append(curve_seg(f"curve_lo_{i}",
-        *pts_lower[i], *pts_lower[i+1]))
+                           *pts_lower[i], *pts_lower[i+1]))
 
 # ════════════════════════════════════════════════════════════════════════
-#  EXTRA PILLARS  —  scattered in open spaces
+#  EXTRA PILLARS  — scattered in remaining open areas (avoid all zones)
 # ════════════════════════════════════════════════════════════════════════
-for i in range(8):
-    x = rand.uniform(-44, 44)
-    y = rand.uniform(-34, 34)
-    # Keep clear of known zones
-    if -18 <= x <= 18 and -12 <= y <= 12:
-        continue   # plaza interior
-    walls.append(pillar(f"extra_{i}", round(x,1), round(y,1),
-                         round(rand.uniform(0.3, 0.6), 2)))
+exclusions = [
+    # plaza
+    (-18, -12, 36, 24),
+    # left grid
+    (-46, -40, 30, 30),
+    # right grid
+    (16, -40, 30, 30),
+    # warehouse
+    (-10, 24, 30, 14),
+    # rooms A/B/C (8×8)
+    (-25, 28, 8, 8), (28, 28, 8, 8), (-9.5, -28, 8, 8),
+    # pillar forests
+    (-46, 26, 18, 12), (28, 26, 18, 12),
+]
+scatter_pillars("extra", -46, 46, -36, 36, 10, exclude=exclusions)
 
 # ────────────────────────────────────────────────────────────────────
 #  SDF TEMPLATE
@@ -436,7 +382,6 @@ print("""
     <!--  ROBOT                                                           -->
     <!-- ================================================================ -->""")
 
-# Spawn robot in the narrow corridor just outside the plaza
 print("""
     <include>
       <uri>model://simple_robot</uri>

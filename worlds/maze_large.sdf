@@ -67,15 +67,29 @@
     <!--  STRUCTURES                                                       -->
     <!-- ================================================================ -->
 
-    <model name="border_top">
+    <model name="border_top_l">
       <static>true</static>
-      <pose>0 40 0.5 0 0 0.0</pose>
+      <pose>-27.5 40 0.5 0 0 0.0</pose>
       <link name="wall">
         <collision name="collision">
-          <geometry><box><size>100 0.2 1.0</size></box></geometry>
+          <geometry><box><size>45 0.2 1.0</size></box></geometry>
         </collision>
         <visual name="visual">
-          <geometry><box><size>100 0.2 1.0</size></box></geometry>
+          <geometry><box><size>45 0.2 1.0</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="border_top_r">
+      <static>true</static>
+      <pose>27.5 40 0.5 0 0 0.0</pose>
+      <link name="wall">
+        <collision name="collision">
+          <geometry><box><size>45 0.2 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>45 0.2 1.0</size></box></geometry>
           <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
         </visual>
       </link>
@@ -123,29 +137,29 @@
       </link>
     </model>
 
-    <model name="alcove_top">
+    <model name="alcove_left">
       <static>true</static>
-      <pose>43 10 0.5 0 0 0.0</pose>
+      <pose>-5 44 0.5 0 0 0.0</pose>
       <link name="wall">
         <collision name="collision">
-          <geometry><box><size>10 0.2 1.0</size></box></geometry>
+          <geometry><box><size>0.2 8 1.0</size></box></geometry>
         </collision>
         <visual name="visual">
-          <geometry><box><size>10 0.2 1.0</size></box></geometry>
+          <geometry><box><size>0.2 8 1.0</size></box></geometry>
           <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
         </visual>
       </link>
     </model>
 
-    <model name="alcove_bottom">
+    <model name="alcove_right">
       <static>true</static>
-      <pose>43 2 0.5 0 0 0.0</pose>
+      <pose>5 44 0.5 0 0 0.0</pose>
       <link name="wall">
         <collision name="collision">
-          <geometry><box><size>10 0.2 1.0</size></box></geometry>
+          <geometry><box><size>0.2 8 1.0</size></box></geometry>
         </collision>
         <visual name="visual">
-          <geometry><box><size>10 0.2 1.0</size></box></geometry>
+          <geometry><box><size>0.2 8 1.0</size></box></geometry>
           <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
         </visual>
       </link>
@@ -153,41 +167,13 @@
 
     <model name="alcove_back">
       <static>true</static>
-      <pose>48 6 0.5 0 0 0.0</pose>
+      <pose>0 48 0.5 0 0 0.0</pose>
       <link name="wall">
         <collision name="collision">
-          <geometry><box><size>0.2 8 1.0</size></box></geometry>
+          <geometry><box><size>10 0.2 1.0</size></box></geometry>
         </collision>
         <visual name="visual">
-          <geometry><box><size>0.2 8 1.0</size></box></geometry>
-          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-
-    <model name="plaza_top_l">
-      <static>true</static>
-      <pose>-10.0 12 0.5 0 0 0.0</pose>
-      <link name="wall">
-        <collision name="collision">
-          <geometry><box><size>16.0 0.2 1.0</size></box></geometry>
-        </collision>
-        <visual name="visual">
-          <geometry><box><size>16.0 0.2 1.0</size></box></geometry>
-          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-
-    <model name="plaza_top_r">
-      <static>true</static>
-      <pose>10.0 12 0.5 0 0 0.0</pose>
-      <link name="wall">
-        <collision name="collision">
-          <geometry><box><size>16.0 0.2 1.0</size></box></geometry>
-        </collision>
-        <visual name="visual">
-          <geometry><box><size>16.0 0.2 1.0</size></box></geometry>
+          <geometry><box><size>10 0.2 1.0</size></box></geometry>
           <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
         </visual>
       </link>
@@ -305,9 +291,9 @@
       </link>
     </model>
 
-    <model name="plaza_p0">
+    <model name="plaza_p_0">
       <static>true</static>
-      <pose>4.2 -8.5 0.5 0 0 0</pose>
+      <pose>4.3 -9.0 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
           <geometry><cylinder><radius>0.21</radius><length>1.0</length></cylinder></geometry>
@@ -319,9 +305,9 @@
       </link>
     </model>
 
-    <model name="plaza_p1">
+    <model name="plaza_p_1">
       <static>true</static>
-      <pose>-8.3 4.3 0.5 0 0 0</pose>
+      <pose>-8.6 4.5 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
           <geometry><cylinder><radius>0.26</radius><length>1.0</length></cylinder></geometry>
@@ -333,9 +319,9 @@
       </link>
     </model>
 
-    <model name="plaza_p2">
+    <model name="plaza_p_2">
       <static>true</static>
-      <pose>11.8 -7.4 0.5 0 0 0</pose>
+      <pose>12.2 -7.8 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
           <geometry><cylinder><radius>0.23</radius><length>1.0</length></cylinder></geometry>
@@ -347,9 +333,9 @@
       </link>
     </model>
 
-    <model name="plaza_p3">
+    <model name="plaza_p_3">
       <static>true</static>
-      <pose>-14.1 -5.1 0.5 0 0 0</pose>
+      <pose>-14.6 -5.3 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
           <geometry><cylinder><radius>0.24</radius><length>1.0</length></cylinder></geometry>
@@ -361,9 +347,9 @@
       </link>
     </model>
 
-    <model name="plaza_p4">
+    <model name="plaza_p_4">
       <static>true</static>
-      <pose>-14.2 -5.4 0.5 0 0 0</pose>
+      <pose>-14.7 -5.7 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
           <geometry><cylinder><radius>0.255</radius><length>1.0</length></cylinder></geometry>
@@ -375,9 +361,9 @@
       </link>
     </model>
 
-    <model name="plaza_p5">
+    <model name="plaza_p_5">
       <static>true</static>
-      <pose>1.3 -5.0 0.5 0 0 0</pose>
+      <pose>1.4 -5.3 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
           <geometry><cylinder><radius>0.25</radius><length>1.0</length></cylinder></geometry>
@@ -389,9 +375,9 @@
       </link>
     </model>
 
-    <model name="plaza_p6">
+    <model name="plaza_p_6">
       <static>true</static>
-      <pose>9.3 -8.9 0.5 0 0 0</pose>
+      <pose>9.6 -9.4 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
           <geometry><cylinder><radius>0.275</radius><length>1.0</length></cylinder></geometry>
@@ -403,9 +389,9 @@
       </link>
     </model>
 
-    <model name="plaza_p7">
+    <model name="plaza_p_7">
       <static>true</static>
-      <pose>5.9 -2.9 0.5 0 0 0</pose>
+      <pose>6.1 -3.0 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
           <geometry><cylinder><radius>0.195</radius><length>1.0</length></cylinder></geometry>
@@ -417,9 +403,9 @@
       </link>
     </model>
 
-    <model name="plaza_p8">
+    <model name="plaza_p_8">
       <static>true</static>
-      <pose>13.7 -2.9 0.5 0 0 0</pose>
+      <pose>14.2 -3.1 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
           <geometry><cylinder><radius>0.185</radius><length>1.0</length></cylinder></geometry>
@@ -431,9 +417,9 @@
       </link>
     </model>
 
-    <model name="plaza_p9">
+    <model name="plaza_p_9">
       <static>true</static>
-      <pose>-12.1 6.3 0.5 0 0 0</pose>
+      <pose>-12.5 6.6 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
           <geometry><cylinder><radius>0.25</radius><length>1.0</length></cylinder></geometry>
@@ -445,9 +431,9 @@
       </link>
     </model>
 
-    <model name="plaza_p10">
+    <model name="plaza_p_10">
       <static>true</static>
-      <pose>9.2 4.1 0.5 0 0 0</pose>
+      <pose>9.5 4.4 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
           <geometry><cylinder><radius>0.24</radius><length>1.0</length></cylinder></geometry>
@@ -459,9 +445,9 @@
       </link>
     </model>
 
-    <model name="plaza_p11">
+    <model name="plaza_p_11">
       <static>true</static>
-      <pose>14.2 -2.2 0.5 0 0 0</pose>
+      <pose>14.7 -2.3 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
           <geometry><cylinder><radius>0.245</radius><length>1.0</length></cylinder></geometry>
@@ -482,20 +468,6 @@
         </collision>
         <visual name="visual">
           <geometry><box><size>0.2 24 1.0</size></box></geometry>
-          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-
-    <model name="corr_l_top">
-      <static>true</static>
-      <pose>-32 12 0.5 0 0 0.0</pose>
-      <link name="wall">
-        <collision name="collision">
-          <geometry><box><size>20 0.2 1.0</size></box></geometry>
-        </collision>
-        <visual name="visual">
-          <geometry><box><size>20 0.2 1.0</size></box></geometry>
           <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
         </visual>
       </link>
@@ -629,13 +601,13 @@
 
     <model name="pf_left_0">
       <static>true</static>
-      <pose>-31.4 32.8 0.5 0 0 0</pose>
+      <pose>-31.4 33.3 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.305</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.285</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.305</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.285</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -643,7 +615,7 @@
 
     <model name="pf_left_1">
       <static>true</static>
-      <pose>-35.7 33.8 0.5 0 0 0</pose>
+      <pose>-35.7 34.3 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
           <geometry><cylinder><radius>0.18</radius><length>1.0</length></cylinder></geometry>
@@ -657,7 +629,7 @@
 
     <model name="pf_left_2">
       <static>true</static>
-      <pose>-41.6 29.2 0.5 0 0 0</pose>
+      <pose>-41.6 29.7 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
           <geometry><cylinder><radius>0.185</radius><length>1.0</length></cylinder></geometry>
@@ -671,13 +643,13 @@
 
     <model name="pf_left_3">
       <static>true</static>
-      <pose>-41.5 27.1 0.5 0 0 0</pose>
+      <pose>-41.5 27.6 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.215</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.21</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.215</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.21</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -685,13 +657,13 @@
 
     <model name="pf_left_4">
       <static>true</static>
-      <pose>-34.7 30.0 0.5 0 0 0</pose>
+      <pose>-34.7 30.5 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.23</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.22</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.23</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.22</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -699,13 +671,13 @@
 
     <model name="pf_left_5">
       <static>true</static>
-      <pose>-41.9 28.9 0.5 0 0 0</pose>
+      <pose>-41.9 29.4 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.315</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.29</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.315</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.29</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -713,13 +685,13 @@
 
     <model name="pf_left_6">
       <static>true</static>
-      <pose>-34.5 32.7 0.5 0 0 0</pose>
+      <pose>-34.5 33.2 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.2</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.195</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.2</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.195</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -727,13 +699,13 @@
 
     <model name="pf_left_7">
       <static>true</static>
-      <pose>-33.1 27.8 0.5 0 0 0</pose>
+      <pose>-33.1 28.3 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.23</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.22</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.23</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.22</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -741,13 +713,13 @@
 
     <model name="pf_left_8">
       <static>true</static>
-      <pose>-28.7 33.0 0.5 0 0 0</pose>
+      <pose>-28.7 33.5 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.26</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.245</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.26</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.245</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -755,13 +727,13 @@
 
     <model name="pf_left_9">
       <static>true</static>
-      <pose>-33.9 35.3 0.5 0 0 0</pose>
+      <pose>-33.9 35.8 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.29</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.27</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.29</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.27</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -769,13 +741,13 @@
 
     <model name="pf_right_0">
       <static>true</static>
-      <pose>32.4 26.4 0.5 0 0 0</pose>
+      <pose>32.4 26.9 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.22</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.215</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.22</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.215</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -783,13 +755,13 @@
 
     <model name="pf_right_1">
       <static>true</static>
-      <pose>33.1 28.3 0.5 0 0 0</pose>
+      <pose>44.5 36.1 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.315</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.215</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.315</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.215</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -797,13 +769,13 @@
 
     <model name="pf_right_2">
       <static>true</static>
-      <pose>43.4 29.5 0.5 0 0 0</pose>
+      <pose>39.6 30.9 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.275</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.29</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.275</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.29</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -811,13 +783,13 @@
 
     <model name="pf_right_3">
       <static>true</static>
-      <pose>35.2 36.1 0.5 0 0 0</pose>
+      <pose>36.3 29.4 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.245</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.205</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.245</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.205</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -825,13 +797,13 @@
 
     <model name="pf_right_4">
       <static>true</static>
-      <pose>33.0 28.7 0.5 0 0 0</pose>
+      <pose>38.0 29.4 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.26</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.25</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.26</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.25</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -839,13 +811,13 @@
 
     <model name="pf_right_5">
       <static>true</static>
-      <pose>33.0 32.4 0.5 0 0 0</pose>
+      <pose>43.8 30.9 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.31</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.2</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.31</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.2</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -853,13 +825,13 @@
 
     <model name="pf_right_6">
       <static>true</static>
-      <pose>35.3 28.4 0.5 0 0 0</pose>
+      <pose>45.5 32.1 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.325</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.185</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.325</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.185</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -867,13 +839,13 @@
 
     <model name="pf_right_7">
       <static>true</static>
-      <pose>37.2 27.0 0.5 0 0 0</pose>
+      <pose>29.3 27.7 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.18</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.255</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.18</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.255</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -881,13 +853,13 @@
 
     <model name="pf_right_8">
       <static>true</static>
-      <pose>30.4 32.9 0.5 0 0 0</pose>
+      <pose>42.0 31.1 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.295</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.185</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.295</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.185</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -895,13 +867,13 @@
 
     <model name="pf_right_9">
       <static>true</static>
-      <pose>35.7 26.7 0.5 0 0 0</pose>
+      <pose>35.0 37.5 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.23</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.24</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.23</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.24</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -1077,7 +1049,7 @@
 
     <model name="room_c_bot">
       <static>true</static>
-      <pose>-4 -28 0.5 0 0 0.0</pose>
+      <pose>-5.5 -28 0.5 0 0 0.0</pose>
       <link name="wall">
         <collision name="collision">
           <geometry><box><size>8 0.2 1.0</size></box></geometry>
@@ -1091,7 +1063,7 @@
 
     <model name="room_c_top_l">
       <static>true</static>
-      <pose>-6.5 -20 0.5 0 0 0.0</pose>
+      <pose>-8.0 -20 0.5 0 0 0.0</pose>
       <link name="wall">
         <collision name="collision">
           <geometry><box><size>3.0 0.2 1.0</size></box></geometry>
@@ -1105,7 +1077,7 @@
 
     <model name="room_c_top_r">
       <static>true</static>
-      <pose>-1.5 -20 0.5 0 0 0.0</pose>
+      <pose>-3.0 -20 0.5 0 0 0.0</pose>
       <link name="wall">
         <collision name="collision">
           <geometry><box><size>3.0 0.2 1.0</size></box></geometry>
@@ -1119,7 +1091,7 @@
 
     <model name="room_c_left">
       <static>true</static>
-      <pose>-8 -24 0.5 0 0 0.0</pose>
+      <pose>-9.5 -24 0.5 0 0 0.0</pose>
       <link name="wall">
         <collision name="collision">
           <geometry><box><size>0.2 8 1.0</size></box></geometry>
@@ -1133,7 +1105,7 @@
 
     <model name="room_c_right">
       <static>true</static>
-      <pose>0 -24 0.5 0 0 0.0</pose>
+      <pose>-1.5 -24 0.5 0 0 0.0</pose>
       <link name="wall">
         <collision name="collision">
           <geometry><box><size>0.2 8 1.0</size></box></geometry>
@@ -1147,7 +1119,7 @@
 
     <model name="room_c_pillar">
       <static>true</static>
-      <pose>-5.2 -24.7 0.5 0 0 0</pose>
+      <pose>-6.7 -24.7 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
           <geometry><cylinder><radius>0.25</radius><length>1.0</length></cylinder></geometry>
@@ -1509,34 +1481,6 @@
       </link>
     </model>
 
-    <model name="grid_l_top">
-      <static>true</static>
-      <pose>-33 -14 0.5 0 0 0.0</pose>
-      <link name="wall">
-        <collision name="collision">
-          <geometry><box><size>20 0.2 1.0</size></box></geometry>
-        </collision>
-        <visual name="visual">
-          <geometry><box><size>20 0.2 1.0</size></box></geometry>
-          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-
-    <model name="grid_r_top">
-      <static>true</static>
-      <pose>33 -14 0.5 0 0 0.0</pose>
-      <link name="wall">
-        <collision name="collision">
-          <geometry><box><size>20 0.2 1.0</size></box></geometry>
-        </collision>
-        <visual name="visual">
-          <geometry><box><size>20 0.2 1.0</size></box></geometry>
-          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
-        </visual>
-      </link>
-    </model>
-
     <model name="curve_ul_0">
       <static>true</static>
       <pose>-27.0 14.5 0.5 0 0 0.1651486774146268</pose>
@@ -1805,13 +1749,13 @@
 
     <model name="extra_0">
       <static>true</static>
-      <pose>43.7 2.0 0.5 0 0 0</pose>
+      <pose>42.9 25.6 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.295</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.175</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.295</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.175</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -1819,13 +1763,27 @@
 
     <model name="extra_1">
       <static>true</static>
-      <pose>31.7 -33.2 0.5 0 0 0</pose>
+      <pose>20.1 12.9 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.26</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.24</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.26</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.24</radius><length>1.0</length></cylinder></geometry>
+          <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="extra_2">
+      <static>true</static>
+      <pose>-21.2 10.0 0.5 0 0 0</pose>
+      <link name="p">
+        <collision name="c">
+          <geometry><cylinder><radius>0.19</radius><length>1.0</length></cylinder></geometry>
+        </collision>
+        <visual name="v">
+          <geometry><cylinder><radius>0.19</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -1833,13 +1791,27 @@
 
     <model name="extra_3">
       <static>true</static>
-      <pose>-20.5 9.6 0.5 0 0 0</pose>
+      <pose>-21.5 0.0 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.165</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.195</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.165</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.195</radius><length>1.0</length></cylinder></geometry>
+          <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="extra_4">
+      <static>true</static>
+      <pose>-18.3 9.9 0.5 0 0 0</pose>
+      <link name="p">
+        <collision name="c">
+          <geometry><cylinder><radius>0.25</radius><length>1.0</length></cylinder></geometry>
+        </collision>
+        <visual name="v">
+          <geometry><cylinder><radius>0.25</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -1847,13 +1819,13 @@
 
     <model name="extra_5">
       <static>true</static>
-      <pose>39.9 25.6 0.5 0 0 0</pose>
+      <pose>-31.6 18.6 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.19</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.24</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.19</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.24</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -1861,13 +1833,13 @@
 
     <model name="extra_6">
       <static>true</static>
-      <pose>0.1 -21.9 0.5 0 0 0</pose>
+      <pose>25.4 2.2 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.285</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.175</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.285</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.175</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
@@ -1875,13 +1847,41 @@
 
     <model name="extra_7">
       <static>true</static>
-      <pose>32.6 -13.7 0.5 0 0 0</pose>
+      <pose>-1.3 -30.6 0.5 0 0 0</pose>
       <link name="p">
         <collision name="c">
-          <geometry><cylinder><radius>0.245</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.27</radius><length>1.0</length></cylinder></geometry>
         </collision>
         <visual name="v">
-          <geometry><cylinder><radius>0.245</radius><length>1.0</length></cylinder></geometry>
+          <geometry><cylinder><radius>0.27</radius><length>1.0</length></cylinder></geometry>
+          <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="extra_8">
+      <static>true</static>
+      <pose>-21.4 26.4 0.5 0 0 0</pose>
+      <link name="p">
+        <collision name="c">
+          <geometry><cylinder><radius>0.23</radius><length>1.0</length></cylinder></geometry>
+        </collision>
+        <visual name="v">
+          <geometry><cylinder><radius>0.23</radius><length>1.0</length></cylinder></geometry>
+          <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="extra_9">
+      <static>true</static>
+      <pose>-26.2 2.8 0.5 0 0 0</pose>
+      <link name="p">
+        <collision name="c">
+          <geometry><cylinder><radius>0.265</radius><length>1.0</length></cylinder></geometry>
+        </collision>
+        <visual name="v">
+          <geometry><cylinder><radius>0.265</radius><length>1.0</length></cylinder></geometry>
           <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material>
         </visual>
       </link>
