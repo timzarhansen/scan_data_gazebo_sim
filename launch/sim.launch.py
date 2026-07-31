@@ -145,28 +145,28 @@ def generate_launch_description():
         parameters=[{"use_sim_time": True}],
     )
 
-    # RViz visualization (gated by use_rviz): odom->chassis TF from /odom,
-    # chassis->laser static TF, and RViz with /scan loaded.
+    # TF infrastructure (always on, independent of RViz): odom->chassis TF
+    # from /odom and static chassis->laser. Required by ANY RViz instance
+    # (viz.launch.py, use_rviz:=true, or manual rviz2) — without these
+    # frames RViz shows 'frame odom does not exist' and no laser.
     tf_broadcaster = Node(
         package="scan_data_gazebo_sim",
         executable="tf_broadcaster",
         name="odom_tf_broadcaster",
         output="screen",
         parameters=[{"use_sim_time": True}],
-        condition=IfCondition(use_rviz),
     )
     static_tf = Node(
         package="tf2_ros",
         executable="static_transform_publisher",
         name="static_tf_chassis_laser",
         arguments=["0", "0", "0.12", "0", "0", "0", "chassis", "laser"],
-        condition=IfCondition(use_rviz),
     )
-    # RViz with the scan-viz config. use_sim_time must match the sim:
-    # TF and /scan stamps are sim time — with wall time RViz considers
-    # every frame ~56 years stale ("frame odom does not exist", no laser).
-    # (The earlier camera-freeze was a config issue — missing Tools
-    # section — now fixed in scan_viz.rviz.)
+    # RViz (gated by use_rviz) with the scan-viz config. use_sim_time must
+    # match the sim: TF and /scan stamps are sim time — with wall time RViz
+    # considers every frame ~56 years stale ("frame odom does not exist",
+    # no laser). (The earlier camera-freeze was a config issue — missing
+    # Tools section — now fixed in scan_viz.rviz.)
     rviz = Node(
         package="rviz2",
         executable="rviz2",
