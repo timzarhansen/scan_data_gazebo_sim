@@ -153,11 +153,25 @@ def cmd_overlay_scans(args):
                 gt_dx, gt_dy, gt_dtheta = row[2], row[3], row[4]
                 break
 
-    # Transform scan0 by GT: rotate then translate
+    # Ground-truth yaw of scan id1 (needed for the exact frame transform)
+    gt_yaw1 = 0.0
+    poses_path = os.path.join(dataset_dir, "poses.csv")
+    if os.path.exists(poses_path):
+        pose_rows = np.loadtxt(poses_path, delimiter=",", skiprows=1)
+        if pose_rows.ndim == 1:
+            pose_rows = pose_rows.reshape(1, -1)
+        for row in pose_rows:
+            if int(row[0]) == id1:
+                gt_yaw1 = row[4]
+                break
+
+    # Exact frame transform: express scan0 in the frame of scan1
+    #   p' = R(-dtheta) p - R(yaw1)^T (dx, dy)
     cos_t = math.cos(gt_dtheta)
     sin_t = math.sin(gt_dtheta)
-    x0_trans = cos_t * x0 - sin_t * y0 + gt_dx
-    y0_trans = sin_t * x0 + cos_t * y0 + gt_dy
+    cos_y1, sin_y1 = math.cos(gt_yaw1), math.sin(gt_yaw1)
+    x0_trans = cos_t * x0 + sin_t * y0 - (cos_y1 * gt_dx + sin_y1 * gt_dy)
+    y0_trans = -sin_t * x0 + cos_t * y0 + (sin_y1 * gt_dx - cos_y1 * gt_dy)
 
     fig, ax = plt.subplots(figsize=(10, 10))
     ax.scatter(x0_trans, y0_trans, s=1, c="blue", label=f"scan {id0} (transformed)")
