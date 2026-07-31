@@ -48,7 +48,11 @@ def generate_launch_description():
         arguments=["0", "0", "0.12", "0", "0", "0", "chassis", "laser"],
     )
 
-    # RViz with the scan-viz config
+    # RViz with the scan-viz config.
+    # NOTE: no use_sim_time here — with it enabled RViz's view controller
+    # stalls (camera frozen) when its /clock stream hiccups. TF lookups
+    # still work because odom->chassis flows continuously and chassis->laser
+    # is static.
     rviz = Node(
         package="rviz2",
         executable="rviz2",
@@ -56,7 +60,6 @@ def generate_launch_description():
         output="screen",
         arguments=["-d", PathJoinSubstitution(
             [FindPackageShare(pkg), "config", "scan_viz.rviz"])],
-        parameters=[{"use_sim_time": True}],
     )
 
     return LaunchDescription([clock_bridge, tf_broadcaster, static_tf, rviz])
