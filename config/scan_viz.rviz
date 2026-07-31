@@ -5,8 +5,21 @@ Panels:
       Expanded: ~
       Splitter Ratio: 0.5
     Tree Height: 600
+  - Class: rviz_common/Views
+    Name: Views
+    Splitter Ratio: 0.5
+    Tree Height: 200
+  - Class: rviz_common/Time
+    Name: Time
+    SyncMode: 0
+    SyncSource: ""
+  - Class: rviz_common/ToolProperties
+    Name: Tool Properties
+    Expanded: ~
+  - Class: rviz_common/Selection
+    Name: Selection
 Visualization Manager:
-  Class: ~
+  Class: ""
   Displays:
     - Class: rviz_default_plugins/Grid
       Name: Grid
@@ -49,9 +62,24 @@ Visualization Manager:
     Background Color: 48; 48; 48
     Fixed Frame: odom
     Frame Rate: 30
-  Enabled: true
-  Name: root
-  Value: true
+  Tools:
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
+    - Class: rviz_default_plugins/SetInitialPose
+      Topic:
+        Value: /initialpose
+    - Class: rviz_default_plugins/SetGoal
+      Topic:
+        Value: /goal_pose
+    - Class: rviz_default_plugins/PublishPoint
+      Single click: true
+      Topic:
+        Value: /clicked_point
+  Transformation:
+    Current:
+      Class: rviz_default_plugins/TF
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
@@ -71,40 +99,19 @@ Visualization Manager:
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
       Yaw: 0.5
-    Saved:
-      - Class: rviz_default_plugins/Orbit
-        Distance: 80
-        Enable Stereo Rendering:
-          Stereo Type: ~
-          Value: false
-        Focal Point:
-          X: 0
-          Y: 0
-          Z: 0
-        Focal Point Fixed Frame: ~
-        Invert Z Axis: false
-        Name: Orbit
-        Near Clip Distance: 0.01
-        Pitch: 0.6
-        Target Frame: <Fixed Frame>
-        Value: Orbit (rviz)
-        Yaw: 0.5
-      - Class: rviz_default_plugins/TopDownOrtho
-        Enable Stereo Rendering:
-          Stereo Type: ~
-          Value: false
-        Invert Z Axis: false
-        Name: TopDownOrtho
-        Near Clip Distance: 0.01
-        Target Frame: <Fixed Frame>
-        Value: TopDownOrtho (rviz)
-        X: 3
-        Y: 0
-        Z: 15
-        Yaw: 0
-        Scale: 30
+    Saved: ~
 Window Geometry:
+  Displays:
+    collapsed: false
   Height: 800
+  Selection:
+    collapsed: false
+  Time:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: false
   Width: 1200
   X: 50
   Y: 50
