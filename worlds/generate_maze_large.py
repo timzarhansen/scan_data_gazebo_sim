@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
 """
-Generate maze_large.sdf — 100×80m industrial complex for LiDAR benchmarking.
+Generate maze_large.sdf — 50×40m industrial complex for LiDAR benchmarking.
 
 5 zones + curved connectors + dead-end alcove.
 Deterministic (seeded RNG). All model names unique.
+All geometry is scaled by SCALE (default 0.5, pass a value to override).
 
 Usage:
     python3 generate_maze_large.py > maze_large.sdf
+    python3 generate_maze_large.py 0.6 > maze_large.sdf
 """
 
 import random
 import math
+import sys
+
+SCALE = float(sys.argv[1]) if len(sys.argv) > 1 else 0.5   # uniform layout scale
 
 W = 0.2            # wall thickness
 H = 1.0            # wall height
@@ -20,7 +25,8 @@ PCOL = "0.4 0.4 0.4 1"  # pillar colour
 # ── helpers ──────────────────────────────────────────────────────────────
 
 def _box(name, cx, cy, sx, sy, yaw_deg=0, mat=COL):
-    """One static wall model as an SDF <model> block."""
+    """One static wall model as an SDF <model> block (scaled by SCALE)."""
+    cx *= SCALE; cy *= SCALE; sx *= SCALE; sy *= SCALE
     yaw = yaw_deg * math.pi / 180.0
     return f"""    <model name="{name}">
       <static>true</static>
@@ -43,6 +49,8 @@ def vert(name, cx, cy, L):
     return _box(name, cx, cy, W, L)
 
 def pillar(name, cx, cy, d=0.5):
+    """One static pillar model as an SDF <model> block (scaled by SCALE)."""
+    cx *= SCALE; cy *= SCALE; d *= SCALE
     return f"""    <model name="{name}">
       <static>true</static>
       <pose>{cx} {cy} {H/2} 0 0 0</pose>
@@ -350,7 +358,7 @@ print(f"""<?xml version="1.0" ?>
           <geometry>
             <plane>
               <normal>0 0 1</normal>
-              <size>150 120</size>
+              <size>{150*SCALE:.0f} {120*SCALE:.0f}</size>
             </plane>
           </geometry>
         </collision>
@@ -358,7 +366,7 @@ print(f"""<?xml version="1.0" ?>
           <geometry>
             <plane>
               <normal>0 0 1</normal>
-              <size>150 120</size>
+              <size>{150*SCALE:.0f} {120*SCALE:.0f}</size>
             </plane>
           </geometry>
           <material>
@@ -382,10 +390,10 @@ print("""
     <!--  ROBOT                                                           -->
     <!-- ================================================================ -->""")
 
-print("""
+print(f"""
     <include>
       <uri>model://simple_robot</uri>
-      <pose>-30 0 0.05 0 0 0</pose>
+      <pose>{(-30*SCALE):.1f} 0 0.05 0 0 0</pose>
     </include>
   </world>
 </sdf>""")
