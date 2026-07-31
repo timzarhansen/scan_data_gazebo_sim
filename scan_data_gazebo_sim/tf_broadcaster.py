@@ -42,11 +42,23 @@ class OdomTfBroadcaster(Node):
 
     def _odom_cb(self, msg: Odometry):
         t = TransformStamped()
-        t.header.stamp = msg.header.stamp
+        # Copy every field as a scalar. Assigning the sub-message objects
+        # directly (msg.header.stamp, msg.pose.pose.position, ...) can trip a
+        # rosidl_generator_py C-extension assert (class-name mismatch in
+        # geometry_msgs/msg/_vector3_s.c) when the process sees two
+        # inconsistent message-package installs, crashing this node with
+        # SIGABRT and leaving the odom frame unpublished.
+        t.header.stamp.sec = msg.header.stamp.sec
+        t.header.stamp.nanosec = msg.header.stamp.nanosec
         t.header.frame_id = self._parent
         t.child_frame_id = self._child
-        t.transform.translation = msg.pose.pose.position
-        t.transform.rotation = msg.pose.pose.orientation
+        t.transform.translation.x = msg.pose.pose.position.x
+        t.transform.translation.y = msg.pose.pose.position.y
+        t.transform.translation.z = msg.pose.pose.position.z
+        t.transform.rotation.x = msg.pose.pose.orientation.x
+        t.transform.rotation.y = msg.pose.pose.orientation.y
+        t.transform.rotation.z = msg.pose.pose.orientation.z
+        t.transform.rotation.w = msg.pose.pose.orientation.w
         self._br.sendTransform(t)
 
         # Heartbeat: lets us see from the launch output that odom messages
