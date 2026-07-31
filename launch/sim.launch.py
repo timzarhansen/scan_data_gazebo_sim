@@ -95,10 +95,13 @@ def generate_launch_description():
         condition=IfCondition(use_gui),
     )
 
-    # Bridge (always-on): ROS 2 <-> Gazebo for cmd_vel, odom, and model pose
+    # Bridge (always-on): ROS 2 <-> Gazebo for clock, cmd_vel, odom, model pose.
+    # /clock is REQUIRED for use_sim_time nodes (RViz, TF) — without it ROS
+    # time stays at 0 and RViz cannot resolve the sim-time-stamped transforms.
     bridge = ExecuteProcess(
         cmd=[
             "ros2", "run", "ros_gz_bridge", "parameter_bridge",
+            "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
             "/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist",
             "/odom@nav_msgs/msg/Odometry@gz.msgs.Odometry",
             "/model/simple_robot/pose@geometry_msgs/msg/PoseStamped@gz.msgs.Pose",
