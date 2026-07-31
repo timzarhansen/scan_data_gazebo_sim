@@ -8,6 +8,7 @@ published separately by a static_transform_publisher in the launch file
 
 import rclpy
 from rclpy.node import Node
+from rclpy.qos import QoSProfile, ReliabilityPolicy
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import TransformStamped
 import tf2_ros
@@ -25,10 +26,18 @@ class OdomTfBroadcaster(Node):
         self._parent = self.get_parameter("parent_frame").value
         self._child = self.get_parameter("child_frame").value
 
+        self._msg_count = 0
+
         self._br = tf2_ros.TransformBroadcaster(self)
-        self.create_subscription(Odometry, odom_topic, self._odom_cb, 10)
+        # ros_gz_bridge publishes /odom with BEST_EFFORT QoS (gz-transport
+        # default). A reliable subscription would silently receive nothing
+        # (QoS incompatibility) -> no TF at all. Best-effort subscribes to
+        # both best-effort and reliable publishers, so it always works.
+        qos = QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT)
+        self.create_subscription(Odometry, odom_topic, self._odom_cb, qos)
         self.get_logger().info(
-            f"Broadcasting TF '{self._parent}' -> '{self._child}' from '{odom_topic}'"
+            f"Broadcasting TF '{self._parent}' -> '{self._child}' from "
+            f"'{odom_topic}' (best-effort QoS)"
         )
 
     def _odom_cb(self, msg: Odometry):
@@ -39,6 +48,14 @@ class OdomTfBroadcaster(Node):
         t.transform.translation = msg.pose.pose.position
         t.transform.rotation = msg.pose.pose.orientation
         self._br.sendTransform(t)
+
+        # Heartbeat: lets us see from the launch output that odom messages
+        # are actually being received and TFs published.
+        self._msg_count += 1
+        if self._msg_count % 100 == 0:
+            self.get_logger().info(
+                f"published {self._msg_count} odom->chassis TFs"
+            )
 
 
 def main(args=None):
